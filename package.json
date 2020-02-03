@@ -1,6 +1,6 @@
 {
   "name": "redux-blaze",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "Create redux actions and reducers in one touch with functions",
   "license": "MIT",
   "repository": "github:spiderpoul/redux-blaze",
@@ -40,16 +40,12 @@
   "scripts": {
     "clean": "rimraf lib dist es coverage types",
     "format": "prettier --write \"{src,test}/**/*.{js,ts}\" index.d.ts \"**/*.md\"",
-    "lint": "eslint --ext js,ts src test",
+    "format:check": "prettier --list-different \"{src,test}/**/*.{js,ts}\" index.d.ts \"**/*.md\"",
     "check-types": "tsc --noEmit",
     "pretest": "npm run build",
-    "test": "jest",
-    "test:watch": "npm test -- --watch",
-    "test:cov": "npm test -- --coverage",
     "build": "rollup -c",
-    "prepare": "npm run clean && npm run check-types && npm run format:check && npm run lint && npm test",
-    "examples:lint": "eslint --ext js,ts examples",
-    "examples:test": "cross-env CI=true babel-node examples/testAll.js"
+    "prepare": "npm run clean && npm run check-types && npm run build",
+    "examples:lint": "eslint --ext js,ts examples"
   },
   "dependencies": {
     "@babel/runtime": "^7.7.4",
