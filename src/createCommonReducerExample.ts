@@ -63,13 +63,16 @@ const dispatch: Dispatch<any> = (action) => action;
 
 const bindActions = appReduxBlaze.bindActions(dispatch);
 
-try {
-  bindActions.loadRequest({});
-  const res = await fetch('/api/data');
+// example of usage
+export async function loadData() {
+  try {
+    bindActions.loadRequest({});
+    const res: any = await fetch('/api/data');
 
-  bindActions.loadSuccess({data: res.json()});
-} catch (e) {
-  bindActions.loadError({error: e});
+    bindActions.loadSuccess({data: res.json()});
+  } catch (e) {
+    bindActions.loadError({error: e});
+  }
 }
 
 
