@@ -89,7 +89,7 @@ todoBindActions.addTodo({todo: 'Install redux-blaze'});
 You can create a common bundler for repeated login, f.e. fetching data:
 
 ```ts
-import { ReducerCur, buildReducer } from "src";
+import { ReducerCur, buildReducer } from "redux-blaze";
 import { Dispatch, combineReducers } from "redux";
 
 export function createCommonReducer<TState, TModel>(arg: { initialState: TState; prefix: string }) {
