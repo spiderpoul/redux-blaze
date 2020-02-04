@@ -86,7 +86,7 @@ todoBindActions.addTodo({todo: 'Install redux-blaze'});
 
 ## Creation common reducer
 
-You can create a common bundler for repeated login, f.e. fetching data:
+You can create a common bundler for repeated logic, f.e. fetching data:
 
 ```ts
 import { ReducerCur, buildReducer } from "redux-blaze";
