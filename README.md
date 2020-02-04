@@ -127,6 +127,10 @@ export function createCommonReducer<TState, TModel>(arg: { initialState: TState;
   };
 }
 
+```
+
+Lets use it:
+```ts
 interface ItemModel {
   name: string;
   id: string;
