@@ -4,6 +4,8 @@ Create redux actions and reducers in one touch with functions.
 
 Work with redux can be sometimes routine, you need to create a bunch of actions and then reducer with commonly used `switch case`, and it could be disappointing for developers.
 
+`redux-blaze` provides you a possibility to create actions and reducers in one touch, just declare functions and use `actionCreators` and `reducer`, all typed and ready to use. 
+
 ## Installation
 
 ```
@@ -18,7 +20,7 @@ or
 
 ## Usage
 
-`redux-blaze` provides you a possibility to create actions and reducers in one touch, just declare functions and use `actionCreators` and `reducer`, all typed and ready to use. Check out example:
+Check out example:
 
 ```ts
 import { ReducerCur, buildReducer } from "redux-blaze";
@@ -84,10 +86,10 @@ todoBindActions.addTodo({todo: 'Install redux-blaze'});
 
 ## Creation common reducer
 
-You can create a common bundler for repeated login, f.e. fetching data:
+You can create a common bundler for repeated logic, f.e. fetching data:
 
 ```ts
-import { ReducerCur, buildReducer } from "src";
+import { ReducerCur, buildReducer } from "redux-blaze";
 import { Dispatch, combineReducers } from "redux";
 
 export function createCommonReducer<TState, TModel>(arg: { initialState: TState; prefix: string }) {
@@ -125,6 +127,10 @@ export function createCommonReducer<TState, TModel>(arg: { initialState: TState;
   };
 }
 
+```
+
+Lets use it:
+```ts
 interface ItemModel {
   name: string;
   id: string;
