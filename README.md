@@ -4,7 +4,7 @@
 
 `redux` is cool, it's easy to understand and use. But work with `redux` can be sometimes routine, **a lot of boilerplate**😭, you need to create a bunch of actions and then reducer with annoying `switch case` construction. It could be disappointing for developers who using `redux`. 😔
 
-With `redux-blaze` you just need to describe **one function** 😍 *(set payload and show how it change store)* and you get `actionCreators` and `reducer`👏, strictly typed 💪 *(for TypeScript)*  and ready to use.
+With `redux-blaze` you just need to describe **one function** 😍 *(set payload and show how it change store)* and you get `actionCreators` and `reducer`👏, strictly typed *(for TypeScript)*  and ready to use.
 
 ## Installation
 
@@ -43,8 +43,9 @@ export const rootReducer = combineReducers({
 
 ...
 
-// dispatch action:
-dispatch(actionCreators.setCategory({category: 'my category'})) // it will dispatch action `MY_FILTER_SET_CATEGORY` (prefix + function name)
+// dispatch an action:
+dispatch(actionCreators.setCategory({category: 'my category'}))
+// it will dispatch an action `MY_FILTER_SET_CATEGORY` (prefix + function name)
 
 ```
 
