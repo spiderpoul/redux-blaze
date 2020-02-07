@@ -1,10 +1,10 @@
 # redux-blaze
 
-Create redux actions and reducers in one touch with functions.
+**Generate actions and reducer with one function!** 😍
 
-Work with redux can be sometimes routine, you need to create a bunch of actions and then reducer with commonly used `switch case`, and it could be disappointing for developers.
+`redux` is cool, it's easy to understand and use. But work with `redux` can be sometimes routine, **a lot of boilerplate**😭, you need to create a bunch of actions and then reducer with annoying `switch case` construction. It could be disappointing for developers who using `redux`. 😔
 
-`redux-blaze` provides you a possibility to create actions and reducers in one touch, just declare functions and use `actionCreators` and `reducer`, all typed and ready to use. 
+With `redux-blaze` you just need to describe **one function** 😍 *(set payload and show how it change store)* and you get `actionCreators` and `reducer`, strictly typed 💪 *(for TypeScript)*  and ready to use.
 
 ## Installation
 
@@ -22,154 +22,35 @@ or
 
 Check out example:
 
-```ts
-import { ReducerCur, buildReducer } from "redux-blaze";
+```js
+import { buildReducer } from "redux-blaze";
 import { combineReducers } from 'redux'
 
-interface ToDoState {
-  todos: string[]
-}
-
-type Reducer<TPayload> = ReducerCur<ToDoState, TPayload>
-
-const initialState = {
-  todos: []
-}
-
-
-// define your functions
-const addTodo: Reducer<{ todo: string }> = ({ todo }) => s => ({
-  ...s,
-  todos: [...s.todos, todo]
-})
-
-const removeTodo: Reducer<{ todo: string }> = ({ todo }) => s => ({
-  ...s,
-  todos: s.todos.filter(x => x !== todo)
-})
-```
-
-Сreate a redux-blaze bundle:
-
-```ts
-const reduxBlaze = buildReducer(
-  initialState,
-  {
-    addTodo,
-    removeTodo
-  },
-  { prefix: 'TODO' }
-)
-```
-
-Here ready to use generated typed reducer:
-
-```ts
-export const rootReducer = combineReducers({
-  todos: reduxBlaze.reducer
-})
-```
-
-Here ready to use generated typed action creators:
-
-```ts
-const todoActions = reduxBlaze.actionCreators;
-dispatch(todoActions.addTodo({todo: 'Install redux'}))
-```
-
-Or bind to actions to dispatch and emit action directly:
-
-```ts
-const todoBindActions = reduxBlaze.bind(dispatch);
-todoBindActions.addTodo({todo: 'Install redux-blaze'});
-```
-
-## Creation common reducer
-
-You can create a common bundler for repeated logic, f.e. fetching data:
-
-```ts
-import { ReducerCur, buildReducer } from "redux-blaze";
-import { Dispatch, combineReducers } from "redux";
-
-export function createCommonReducer<TState, TModel>(arg: { initialState: TState; prefix: string }) {
-  const { initialState, prefix } = arg;
-  type Reducer<TPayload> = ReducerCur<TState, TPayload>;
-
-  const loadRequest: Reducer<{}> = () => s => ({ ...s, isLoading: true });
-
-  const loadSuccess: Reducer<{ data: TModel }> = ({ data }) => s => ({
-    ...s,
-    model: data,
-    isLoading: false,
-    error: false
-  });
-
-  const loadError: Reducer<{ error: any }> = ({ error }) => s => ({
-    ...s,
-    error,
-    isLoading: false
-  });
-
-  const bundle = buildReducer(
-    initialState,
-    {
-      loadRequest,
-      loadSuccess,
-      loadError
-    },
-    { prefix }
-  );
-
-  return {
-    bindActions: bundle.bind,
-    reducer: bundle.reducer
-  };
-}
-
-```
-
-Lets use it:
-```ts
-interface ItemModel {
-  name: string;
-  id: string;
-}
-
-interface AppState {
-  error: null,
-  isLoading: false,
-  model: ItemModel | null;
-}
-
-const initialState: AppState = {
-  error: null,
-  isLoading: false,
-  model: null
-};
-
-export const appReduxBlaze = createCommonReducer<AppState, ItemModel>({
-  initialState,
-  prefix: 'APP'
+export const { actionCreators, reducer: filtersReducer } = buildReducer(initialState, {
+    setMySearch: ({ search }) /* <- payload */ => state => ({ ...state, search }),
+    setCategory: ({ category }) => state => ({ ...state, category }),
+    setSort: ({ sort }) => state => ({ ...state, sort }),
+}, {
+    prefix: 'MY_FILTER',
 });
+
+...
+
+// Just add auto generated reducer to root reducer:
+export const rootReducer = combineReducers({
+  filters: filtersReducer
+})
+
+...
+
+// dispatch action:
+dispatch(actionCreators.setCategory({category: 'my category'})) // it will dispatch action `MY_FILTER_SET_CATEGORY` (prefix + function name)
+
 ```
 
-And here we have ready to use action creators:
+**That's all!** No extra line of code! No more boilerplate! 😎
 
-```ts
-const bindActions = appReduxBlaze.bindActions(dispatch);
-
-try {
-  bindActions.loadRequest({});
-  const res = await fetch('/api/data');
-
-  bindActions.loadSuccess({data: res.json()});
-} catch (e) {
-  bindActions.loadError({error: e});
-}
-```
-
-No extra line of code!
+[>> Checkout more detailed TypeScript example](./typescript_example.md) 🤗
 
 ## Special thanks
 
